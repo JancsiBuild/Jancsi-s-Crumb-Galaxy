@@ -134,15 +134,17 @@
     .offline-cookie-panel h2 { margin:8px 0; color:#ffe6ad; font-family:"Cinzel Decorative","Oxanium",serif; font-size:clamp(22px,5vw,30px); }
     .offline-cookie-copy { margin:0 0 18px; color:#e4d5b9; font-size:13px; line-height:1.7; }
     .offline-cookie-stats { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin:0 0 17px; }
-    .offline-cookie-stat { min-width:0; padding:13px; border:1px solid rgba(255,202,112,.14); border-radius:14px; background:rgba(255,202,112,.045); }
+    .offline-cookie-stat { min-width:0; padding:13px; border:1px solid rgba(255,202,112,.14); border-radius:18px; background:rgba(255,202,112,.045); }
     .offline-cookie-stat-label { color:#c7b38f; font-size:10px; }
-    .offline-cookie-stat-value { margin-top:5px; overflow-wrap:anywhere; color:#ffe4a6; font-size:clamp(14px,3.5vw,19px); font-weight:850; }
+    .offline-cookie-stat-value { margin-top:5px; overflow-wrap:anywhere; color:#ffe4a6; font-size:clamp(14px,3.5vw,19px); font-weight:850; transition:color .22s ease,text-shadow .22s ease; }
+    .offline-cookie-stat-value.is-counting { color:#fff3c5; text-shadow:0 0 16px rgba(255,202,112,.55); }
     .offline-cookie-limit { margin:0 0 17px; color:#c7b38f; font-size:10px; line-height:1.55; }
     .offline-multiplier-label { margin:0 0 9px; color:#ffe6ad; font-size:11px; font-weight:800; }
     .offline-multiplier-options { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 15px; }
-    .offline-multiplier-pill { min-height:36px; padding:7px 12px; border:1px solid rgba(255,202,112,.28); border-radius:999px; color:#f0d6a2; background:rgba(255,202,112,.07); font-size:11px; font-weight:850; cursor:pointer; }
-    .offline-multiplier-pill[aria-pressed="true"] { border-color:rgba(255,224,160,.85); color:#25190d; background:linear-gradient(110deg,#ffe3a1,#df9d3b); box-shadow:0 4px 15px rgba(198,132,43,.24); }
-    .offline-cookie-claim { display:flex; min-height:48px; width:100%; align-items:center; justify-content:center; border:1px solid rgba(255,224,160,.65); border-radius:14px; color:#2a1b0d; background:linear-gradient(110deg,#ffe3a1,#df9d3b); box-shadow:0 8px 24px rgba(198,132,43,.28); font-size:13px; font-weight:900; cursor:pointer; }
+    .offline-multiplier-pill { min-height:36px; padding:7px 12px; border:1px solid rgba(255,202,112,.28); border-radius:999px; color:#f0d6a2; background:rgba(255,202,112,.07); font-size:11px; font-weight:850; cursor:pointer; transition:transform .3s cubic-bezier(.16,1,.3,1),border-color .22s ease,color .22s ease,background .22s ease,box-shadow .22s ease; }
+    .offline-multiplier-pill[aria-pressed="true"] { transform:scale(1.055); border-color:rgba(255,224,160,.85); color:#25190d; background:linear-gradient(110deg,#ffe3a1,#df9d3b); box-shadow:0 4px 15px rgba(198,132,43,.24),0 0 22px rgba(255,202,112,.28); animation:offline-multiplier-pick .34s cubic-bezier(.16,1,.3,1) both; }
+    @keyframes offline-multiplier-pick { 0% { transform:scale(.94); } 68% { transform:scale(1.09); } 100% { transform:scale(1.055); } }
+    .offline-cookie-claim { display:flex; min-height:48px; width:100%; align-items:center; justify-content:center; border:1px solid rgba(255,224,160,.65); border-radius:999px; color:#2a1b0d; background:linear-gradient(110deg,#ffe3a1,#df9d3b); box-shadow:0 8px 24px rgba(198,132,43,.28); font-size:13px; font-weight:900; cursor:pointer; }
     @media(max-width:430px) { .offline-cookie-panel { padding:20px 16px; } }
     @media(max-width:680px) {
       .top-actions { gap:6px; }
@@ -393,11 +395,12 @@
       padding: 0; place-items: center; border: 0; border-radius: 50%;
       background: transparent; cursor: pointer; -webkit-tap-highlight-color: transparent;
       transition: transform .24s cubic-bezier(.2,.9,.2,1);
+      will-change:transform;
       box-shadow: 0 24px 25px rgba(0,0,0,.28);
     }
     .cookie-button:hover { transform: translateY(-5px) scale(1.025); }
     .cookie-button:active { transform: scale(.94) rotate(-3deg); }
-    .cookie-svg { display: block; width: 100%; overflow: visible; }
+    .cookie-svg { display: block; width: 100%; overflow: visible; will-change:transform,filter; }
     .cookie-svg {
       --cookie-shadow:#86482e;
       --cookie-dough-light:#f7cf82;
@@ -409,15 +412,15 @@
       --cookie-chip:#653521;
       --cookie-sprinkle:#ffe1a2;
     }
-    .click-ring { position: fixed; z-index: 19; width: 24px; height: 24px; border: 2px solid rgba(255,218,145,.85); border-radius: 50%; pointer-events: none; animation: ring-bloom .448s ease-out forwards; }
-    .click-spark { position: fixed; z-index: 19; width: 6px; height: 6px; border-radius: 2px; background: var(--spark-color, #ffca70); pointer-events: none; animation: spark-scatter .512s cubic-bezier(.15,.7,.25,1) forwards; }
-    .click-crumb { position: fixed; z-index: 19; width: 9px; height: 9px; border-radius: 42% 58% 54% 46%; background: var(--crumb-color); pointer-events: none; animation: crumb-tumble .68s cubic-bezier(.16,.73,.25,1) forwards; }
+    .click-ring { position: fixed; z-index: 19; width: 24px; height: 24px; border: 2px solid rgba(255,218,145,.85); border-radius: 50%; pointer-events: none; will-change:transform,opacity; animation: ring-bloom .448s ease-out forwards; }
+    .click-spark { position: fixed; z-index: 19; width: 6px; height: 6px; border-radius: 2px; background: var(--spark-color, #ffca70); pointer-events: none; will-change:transform,opacity; animation: spark-scatter .512s cubic-bezier(.15,.7,.25,1) forwards; }
+    .click-crumb { position: fixed; z-index: 19; width: 9px; height: 9px; border-radius: 42% 58% 54% 46%; background: var(--crumb-color); pointer-events: none; will-change:transform,opacity; animation: crumb-tumble .68s cubic-bezier(.16,.73,.25,1) forwards; }
     [data-counter].counting { color: var(--gold); text-shadow: 0 0 18px rgba(255,202,112,.25); transition: color .3s,text-shadow .3s; }
     .cookie-glow { position: absolute; width: 80%; height: 80%; border-radius: 50%; background: rgba(237, 142, 73, .11); filter: blur(38px); }
     .click-hint { position: absolute; bottom: 23px; color: #857664; font-size: 12px; letter-spacing: .04em; }
     .float-text {
       position: fixed; z-index: 20; color: var(--gold); font-size: 18px; font-weight: 900;
-      pointer-events: none; text-shadow: 0 2px 12px rgba(0,0,0,.7); animation: float-up .8s ease-out forwards;
+      pointer-events: none; text-shadow: 0 2px 12px rgba(0,0,0,.7); will-change:transform,opacity; animation: float-up .8s ease-out forwards;
     }
     .side-stack { display: grid; grid-template-rows: 1fr auto; gap: 18px; }
     .balance-card { display: flex; min-height: 205px; padding: 26px; flex-direction: column; justify-content: space-between; }
@@ -553,8 +556,8 @@
       backdrop-filter: blur(18px) saturate(1.2);
     }
     .owner-mode .owner-tool-card {
-      backdrop-filter:none;
-      -webkit-backdrop-filter:none;
+      backdrop-filter:blur(18px) saturate(1.2);
+      -webkit-backdrop-filter:blur(18px) saturate(1.2);
     }
     .owner-mode .dock {
       border-color: rgba(255,231,177,.24);
@@ -599,7 +602,7 @@
     .owner-mode .click-spark { width:8px; height:8px; box-shadow:0 0 14px currentColor; animation-duration:.84s; }
     .owner-mode .click-crumb { width:11px; height:11px; box-shadow:0 0 13px rgba(255,202,112,.32); animation-duration:.96s; }
     .owner-mode .float-text { color:#ffe8a7; font-size:22px; text-shadow:0 0 20px rgba(255,202,112,.55),0 2px 12px rgba(0,0,0,.7); animation-duration:.88s; }
-    .owner-cookie-flare { position:fixed; z-index:18; width:32px; height:32px; border-radius:50%; background:radial-gradient(circle,rgba(255,250,220,.95) 0,rgba(255,218,126,.72) 18%,rgba(255,177,67,.22) 48%,transparent 72%); filter:blur(1px); pointer-events:none; animation:owner-cookie-flare 1.2s cubic-bezier(.16,1,.3,1) forwards; }
+    .owner-cookie-flare { position:fixed; z-index:18; width:32px; height:32px; border-radius:50%; background:radial-gradient(circle,rgba(255,250,220,.95) 0,rgba(255,218,126,.72) 18%,rgba(255,177,67,.22) 48%,transparent 72%); filter:blur(1px); pointer-events:none; will-change:transform,opacity; animation:owner-cookie-flare 1.2s cubic-bezier(.16,1,.3,1) forwards; }
     .owner-click-ring { width:42px; height:42px; border-width:2px; border-color:rgba(255,244,194,.96); box-shadow:0 0 18px rgba(255,235,166,.85),inset 0 0 14px rgba(255,202,112,.38); animation:owner-cookie-ring .82s cubic-bezier(.16,1,.3,1) forwards; }
     .owner-click-spark { width:9px; height:9px; border-radius:50%; box-shadow:0 0 12px currentColor,0 0 26px rgba(255,220,142,.68); animation:owner-cookie-spark .9s cubic-bezier(.16,1,.3,1) forwards; }
     .owner-click-crumb { width:12px; height:12px; box-shadow:0 0 16px rgba(255,214,126,.56); animation:owner-cookie-crumb 1.08s cubic-bezier(.16,1,.3,1) forwards; }
@@ -970,8 +973,8 @@
     .auth-message { min-height: 18px; margin-top: 13px; color: var(--danger); font-size: 11px; line-height: 1.55; }
     .auth-message.success { color: var(--mint); }
     .account-chip { display: flex; align-items: center; gap: 10px; }
-    .account-name { display:flex; min-width:0; max-width:220px; align-items:center; gap:7px; overflow:visible; color: var(--muted); font-size: 11px; }
-    .account-description { min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .account-name { display:flex; min-width:0; max-width:360px; flex-wrap:wrap; align-items:center; gap:7px; overflow:visible; color: var(--muted); font-size: 11px; }
+    .account-description { min-width:0; flex:1 1 100%; overflow:visible; overflow-wrap:anywhere; text-overflow:clip; white-space:normal; }
     .owner-badge { display:inline-flex; min-height:24px; flex:0 0 auto; margin:0; padding:4px 8px; align-items:center; border:1px solid rgba(255,224,138,.34); border-radius:999px; color:#ffe7a1; background:rgba(255,202,112,.1); font:inherit; font-size:9px; font-weight:850; letter-spacing:.1em; line-height:1.2; white-space:nowrap; cursor:pointer; }
     .vip-tag { display:inline-flex; min-height:24px; flex:0 0 auto; margin:0; padding:4px 8px; align-items:center; border:1px solid; border-radius:999px; background:rgba(255,255,255,.06); font:inherit; font-size:9px; font-weight:850; letter-spacing:.08em; line-height:1.2; white-space:nowrap; cursor:pointer; }
     .vip-tag-basic { border-color:rgba(159,204,255,.5); color:#c6e2ff; background:rgba(94,156,217,.13); }
@@ -993,19 +996,39 @@
     .vip-plan[aria-pressed="true"],.vip-duration[aria-pressed="true"] { border-color:rgba(207,174,255,.75); background:rgba(153,116,224,.16); box-shadow:0 0 0 2px rgba(153,116,224,.11); }
     .vip-plan strong,.vip-duration strong { display:block; margin-bottom:6px; color:#fff0c2; font-size:13px; }
     .vip-plan span,.vip-duration span { display:block; color:#cbbfd7; font-size:10px; line-height:1.55; }
+    .vip-checkout-total { display:flex; align-items:center; justify-content:space-between; gap:12px; margin:18px 0 12px; padding:16px; border:1px solid rgba(207,174,255,.2); border-radius:16px; color:#ded3e9; background:rgba(153,116,224,.08); font-size:12px; }
+    .vip-checkout-total strong { color:#fff0c2; font-size:16px; text-align:right; }
+    .vip-checkout-balance,.vip-checkout-status { margin:8px 0; color:#cbbfd7; font-size:11px; line-height:1.6; }
+    .vip-checkout-status { min-height:18px; color:#ffc1a9; }
+    .vip-items-toggle { display:flex; width:100%; min-height:42px; align-items:center; justify-content:space-between; gap:10px; padding:10px 13px; border:1px solid rgba(223,207,255,.16); border-radius:12px; color:#e7d9f5; background:rgba(255,255,255,.035); font:inherit; font-size:11px; font-weight:850; cursor:pointer; }
+    .vip-items-toggle svg { width:16px; height:16px; flex:0 0 16px; transition:transform .16s ease; }
+    .vip-items-toggle[aria-expanded="true"] svg { transform:rotate(180deg); }
+    .vip-items-list { display:grid; gap:8px; margin-top:9px; }
+    .vip-items-list[hidden] { display:none; }
+    .vip-item-row { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px; border:1px solid rgba(223,207,255,.12); border-radius:13px; background:rgba(255,255,255,.025); }
+    .vip-item-details { min-width:0; }
+    .vip-item-details strong,.vip-item-details span { display:block; }
+    .vip-item-details strong { color:#fff0c2; font-size:12px; }
+    .vip-item-details span { margin-top:4px; color:#cbbfd7; font-size:10px; line-height:1.5; }
+    .vip-item-remove { display:grid; width:34px; height:34px; flex:0 0 34px; place-items:center; border:1px solid rgba(255,155,211,.3); border-radius:10px; color:#ffc1e4; background:rgba(255,114,189,.08); font-size:19px; line-height:1; cursor:pointer; }
+    .vip-items-empty { margin:0; padding:12px; border:1px dashed rgba(223,207,255,.2); border-radius:13px; color:#cbbfd7; font-size:11px; line-height:1.6; }
     .vip-panel-footer { display:flex; flex-wrap:wrap; justify-content:flex-end; gap:9px; margin-top:18px; padding-top:15px; border-top:1px solid rgba(255,255,255,.09); }
     .vip-action { min-height:40px; padding:10px 15px; border:1px solid rgba(223,207,255,.2); border-radius:12px; color:#e7d9f5; background:rgba(255,255,255,.055); font:inherit; font-size:11px; font-weight:850; cursor:pointer; }
     .vip-action.primary { border-color:rgba(207,174,255,.65); color:#281b39; background:linear-gradient(110deg,#e7d8ff,#b898f1); box-shadow:0 7px 22px rgba(133,94,196,.2); }
     .vip-action.primary:disabled { opacity:.48; cursor:not-allowed; }
     .vip-dialog-status { min-height:18px; margin:8px 0 0; color:#ffc1a9; font-size:11px; }
     @media (max-width:560px) { .vip-plan-grid,.vip-duration-grid { grid-template-columns:1fr; } .vip-plan,.vip-duration { padding:12px; } }
-    @media (max-width:900px) {
+    @media (max-width:1100px) {
       .topbar { flex-wrap:wrap; gap:8px; }
       .topbar .brand { flex:1 1 100%; }
-      .top-actions { width:100%; justify-content:space-between; }
-      .account-name { max-width:clamp(84px,24vw,220px); }
+      .top-actions { width:100%; min-width:0; flex-wrap:wrap; justify-content:flex-start; }
+      #account-area { width:100%; min-width:0; max-width:100%; flex:1 1 100%; margin-left:0; }
+      .account-chip { width:100%; min-width:0; max-width:100%; justify-content:space-between; }
+      .account-name { min-width:0; max-width:none; flex:1 1 auto; flex-wrap:wrap; }
+      .account-description { flex:1 1 100%; overflow:visible; overflow-wrap:anywhere; text-overflow:clip; white-space:normal; }
     }
-    .logout-button { padding: 8px 11px; border: 1px solid var(--line); border-radius: 12px; color: #d7c6ad; background: rgba(255,255,255,.035); font-size: 10px; cursor: pointer; transition: background .2s; }
+    .logout-button { display:inline-flex; min-height:36px; flex:0 0 auto; padding:8px 11px; align-items:center; justify-content:center; gap:6px; border:1px solid var(--line); border-radius:12px; color:#d7c6ad; background:rgba(255,255,255,.035); font-size:10px; white-space:nowrap; cursor:pointer; transition:background .2s; }
+    .logout-button svg { display:block; width:15px; height:15px; flex:0 0 15px; }
     .signout-confirm { position:fixed; z-index:180; inset:0; display:grid; overflow:auto; padding:18px; place-items:center; background:rgba(9,6,5,.82); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); animation:auth-fade .2s ease both; }
     .signout-confirm[hidden] { display:none; }
     .signout-confirm.is-closing { animation:overlay-exit .18s ease-in both; pointer-events:none; }
@@ -1042,11 +1065,11 @@
     @media (max-width: 500px) {
       .topbar { flex-wrap: wrap; row-gap: 12px; }
       .topbar .brand { flex: 1 1 100%; }
-      #account-area { width:100%; min-width:0; max-width:100%; margin-left:auto; }
-      .account-chip { width:100%; min-width:0; max-width:100%; flex-wrap:wrap; justify-content:flex-end; }
-      .account-name { min-width:0; max-width:calc(100vw - 112px); overflow-wrap:anywhere; text-align:right; }
-      .top-status { font-size: 0; }
-      .top-status .status-dot { width: 8px; height: 8px; }
+      .top-actions { gap:8px; }
+      .account-chip { flex-wrap:nowrap; gap:8px; }
+      .account-name { overflow:visible; text-align:left; }
+      .logout-button { min-height:36px; padding:7px 9px; }
+      .top-status { font-size:11px; }
       .bakery-whisper { min-height: 48px; padding: 11px 13px; }
       .bakery-whisper-text { font-size: 11px; }
       .page-heading { margin-bottom: 20px; }
@@ -1366,9 +1389,13 @@ This is a local, single-player cookie game. No real cookies are delivered, no ac
         { id: "owner-zenith-oven", name: "Zenith Oven", icon: "hour", description: "Multiply all baking by 50,000 for ten minutes.", duration: 600, type: "all", multiplier: 50000 },
         { id: "owner-timeless-dough", name: "Timeless Dough", icon: "rain", description: "Multiply all baking by 10 for seven days.", duration: 604800, type: "all", multiplier: 10 }
       ];
+      const finalSafeBakedGoal = BigInt(Number.MAX_SAFE_INTEGER);
+      const extendedBakedGoal = finalSafeBakedGoal + 1000000000000000000000n;
+      const finalSafeBakedReward = 1000000000n;
+      const extendedBakedReward = finalSafeBakedReward * extendedBakedGoal / finalSafeBakedGoal;
       const achievementTracks = [
         { metric: "baked", name: "Lifetime baking", milestones: [
-          [1,"First Crumb",5],[10,"A Tiny Batch",10],[100,"First Hundred",25],[500,"Warm Tray",50],[1000,"Cookie Collector",100],[5000,"Oven Regular",250],[10000,"Stardust Baker",500],[50000,"Galaxy Kneader",1000],[100000,"Cosmic Cookie Crafter",2500],[500000,"Supernova Bakery",5000],[1000000,"Million-Cookie Moment",10000],[5000000,"Nebula of Nibbles",25000],[10000000,"Ten Million Treats",50000],[50000000,"Starcluster Sweets",100000],[100000000,"Hundred Million Cookies",250000],[500000000,"Interstellar Oven",500000],[1000000000,"Billion-Batch Baker",1000000],[10000000000,"Ten Billion Delights",2500000],[100000000000,"Galactic Cookie Storm",5000000],[1000000000000,"Trillion-Cookie Legend",10000000],[10000000000000,"Beyond the Cookieverse",25000000],[100000000000000,"Infinite-Sized Appetite",50000000],[1000000000000000,"The Unfathomable Batch",100000000],[2500000000000000,"Cookie Supercluster",250000000],[5000000000000000,"Quadrillion Oven",500000000],[Number.MAX_SAFE_INTEGER,"Final Safe Batch",1000000000]
+          [1,"First Crumb",5],[10,"A Tiny Batch",10],[100,"First Hundred",25],[500,"Warm Tray",50],[1000,"Cookie Collector",100],[5000,"Oven Regular",250],[10000,"Stardust Baker",500],[50000,"Galaxy Kneader",1000],[100000,"Cosmic Cookie Crafter",2500],[500000,"Supernova Bakery",5000],[1000000,"Million-Cookie Moment",10000],[5000000,"Nebula of Nibbles",25000],[10000000,"Ten Million Treats",50000],[50000000,"Starcluster Sweets",100000],[100000000,"Hundred Million Cookies",250000],[500000000,"Interstellar Oven",500000],[1000000000,"Billion-Batch Baker",1000000],[10000000000,"Ten Billion Delights",2500000],[100000000000,"Galactic Cookie Storm",5000000],[1000000000000,"Trillion-Cookie Legend",10000000],[10000000000000,"Beyond the Cookieverse",25000000],[100000000000000,"Infinite-Sized Appetite",50000000],[1000000000000000,"The Unfathomable Batch",100000000],[2500000000000000,"Cookie Supercluster",250000000],[5000000000000000,"Quadrillion Oven",500000000],[Number.MAX_SAFE_INTEGER,"Final Safe Batch",finalSafeBakedReward],[extendedBakedGoal,"Beyond the Safe Batch",extendedBakedReward]
         ] },
         { metric: "taps", name: "Cookie taps", milestones: [
           [1,"One Happy Tap",5],[10,"Tap-tap-tap",10],[50,"Finger Food",25],[100,"Hundred-Tap Rhythm",50],[500,"Rapid Baker",100],[1000,"Tap Constellation",250],[5000,"Cookie Drummer",500],[10000,"Ten Thousand Taps",1000],[50000,"The Steady Hand",2500],[100000,"Tap Beyond the Stars",5000],[500000,"Half-Million Clicks",10000],[1000000,"Million-Tap Master",25000],[5000000,"Relentless Rhythm",50000],[10000000,"Ten Million Taps",100000],[100000000,"The Impossible Tap",1000000]
@@ -1407,7 +1434,7 @@ This is a local, single-player cookie game. No real cookies are delivered, no ac
       const visibleAchievements = () => achievements.filter(achievement => !achievement.ownerOnly || isOwner());
       const nextBakingMilestone = () => visibleAchievements()
         .filter(achievement => achievement.metric === "baked" && !state.achievements.includes(achievement.id))
-        .sort((left, right) => left.goal - right.goal)[0] || null;
+        .sort((left, right) => left.goal < right.goal ? -1 : left.goal > right.goal ? 1 : 0)[0] || null;
       const DAILY_WHEEL_COOLDOWN = 24 * 60 * 60 * 1000;
       const wheelPrizes = [
         { id: "crumb-pouch", label: "+250", description: "250 cookies", type: "cookies", amount: 250, tier: "common", color: "#b96c42" },
@@ -1472,7 +1499,7 @@ This is a local, single-player cookie game. No real cookies are delivered, no ac
         { id: "chief-ultimate-helper-kingdom", label: "Crew x50K", description: "50,000 of every helper", type: "helper-bundle", amount: 50000, tier: "mega", color: "#bf7540" }
       );
       const freshState = () => ({
-        cookies: 0, baked: 0, achievementCookiesCounted: true, taps: 0, boostsUsed: 0, achievements: [], welcomedPages: [], lastWheelSpin: 0, pendingWheelPrize: "", pendingOfflineCookies: 0, pendingOfflineSeconds: 0, bought: {}, active: [], lastSave: Date.now(),
+        cookies: 0, baked: "0", achievementCookiesCounted: true, taps: 0, boostsUsed: 0, achievements: [], welcomedPages: [], lastWheelSpin: 0, pendingWheelPrize: "", pendingOfflineCookies: 0, pendingOfflineSeconds: 0, bought: {}, active: [], lastSave: Date.now(),
         ownerTools: { infiniteCookies: false, freeMarket: false, tapMultiplier: 1, passiveBonus: 0, productionMultiplier: 1, passiveMultiplier: 1, autoBakeRate: 0, boostDurationMultiplier: 1, boostPowerMultiplier: 1, timeSkipSeconds: 3600 },
         adminTools: { infiniteCookies: false, freeMarket: false, tapMultiplier: 1, passiveBonus: 0, productionMultiplier: 1, passiveMultiplier: 1, autoBakeRate: 0, boostDurationMultiplier: 1 },
         wheelTools: { infiniteSpins: false, infiniteLuck: false }
@@ -1528,18 +1555,41 @@ This is a local, single-player cookie game. No real cookies are delivered, no ac
       const ownerDockButton = document.querySelector('[data-page="owner"]');
       const adminDockButton = document.querySelector('[data-page="admin"]');
       const pageOrder = ["bake", "market", "boosts", "ledger", "profile", "achievements", "admin", "owner"];
-      const fmt = value => Math.floor(value).toLocaleString();
+      const fmt = value => {
+        if (typeof value === "bigint") return value.toLocaleString();
+        if (typeof value === "string" && /^\d+$/.test(value)) {
+          const exactValue = BigInt(value);
+          if (exactValue > BigInt(Number.MAX_SAFE_INTEGER)) return exactValue.toLocaleString();
+        }
+        return Math.floor(value).toLocaleString();
+      };
       const safeCounter = value => {
         const numeric = Number(value);
         if (Number.isNaN(numeric) || numeric === -Infinity) return 0;
         return numeric === Infinity ? Number.MAX_SAFE_INTEGER : Math.min(Number.MAX_SAFE_INTEGER, Math.max(0, Math.floor(numeric)));
       };
       const addSafeCounter = (current, amount) => Math.min(Number.MAX_SAFE_INTEGER, safeCounter(current) + safeCounter(amount));
+      const bakedBigInt = value => {
+        try {
+          const baked = BigInt(value ?? 0);
+          return baked < 0n ? 0n : baked;
+        } catch {
+          return 0n;
+        }
+      };
+      const addBakedCookies = (current, amount) => String(bakedBigInt(current) + bakedBigInt(amount));
+      const bakedForCounter = () => {
+        const baked = bakedBigInt(state.baked);
+        return baked <= BigInt(Number.MAX_SAFE_INTEGER) ? Number(baked) : baked;
+      };
+      const bakedRatioPercent = (baked, goal) => Number(bakedBigInt(baked)) / Number(bakedBigInt(goal)) * 100;
       const animatedValues = new Map();
       const counterFrames = new Map();
       const cookieAnimations = new WeakMap();
       const overlayClosures = new WeakMap();
       let activeCookieEffects = 0;
+      let tapSaveTimer = null;
+      let liveNumberUpdateFrame = 0;
       const owned = id => safeCounter(state.bought?.[id]);
       const costOf = item => Math.ceil(item.base * Math.pow(1.16, owned(item.id)));
       const liveBoosts = () => state.active.filter(boost => boost.endsAt > Date.now());
@@ -1579,7 +1629,8 @@ This is a local, single-player cookie game. No real cookies are delivered, no ac
       const canBuyForFree = () => Boolean(roleTools()?.freeMarket);
       function setCounter(element, key, target) {
         if (!element) return;
-        const nextValue = Math.max(0, Math.floor(Number(target) || 0));
+        const exactInteger = typeof target === "bigint";
+        const nextValue = exactInteger ? (target < 0n ? 0n : target) : Math.max(0, Math.floor(Number(target) || 0));
         element.dataset.counter = key;
         element.dataset.counterValue = String(nextValue);
         const previous = animatedValues.get(key);
@@ -1592,6 +1643,16 @@ This is a local, single-player cookie game. No real cookies are delivered, no ac
         if (previous === nextValue) {
           element.textContent = fmt(nextValue);
           element.dataset.counterCurrent = String(nextValue);
+          return;
+        }
+        if (exactInteger || typeof previous === "bigint") {
+          const activeFrame = counterFrames.get(key);
+          if (activeFrame) cancelAnimationFrame(activeFrame);
+          counterFrames.delete(key);
+          animatedValues.set(key, nextValue);
+          element.textContent = fmt(nextValue);
+          element.dataset.counterCurrent = String(nextValue);
+          element.classList.remove("counting");
           return;
         }
         const activeFrame = counterFrames.get(key);
@@ -2019,12 +2080,33 @@ This is a local, single-player cookie game. No real cookies are delivered, no ac
         let selectedPlan = "";
         let selectedDuration = "";
         let step = "plan";
-        const renderStep = () => {
+        let checkoutItemsExpanded = false;
+        const renderStep = (focusSelector = "") => {
           const plan = vipPlans.find(item => item.id === selectedPlan);
           const duration = vipDurations.find(item => item.id === selectedDuration);
           const price = plan && duration ? duration.prices[plan.id] : 0;
           const canBuy = Boolean(plan && duration && state.cookies >= price);
-          vipDialog.innerHTML = `<section class="vip-panel" role="dialog" aria-modal="true" aria-labelledby="vip-shop-title"><div class="vip-kicker">${options.intro ? "A NEW BAKERY PERK" : "OPTIONAL · IN-GAME COOKIES ONLY"}</div><h2 id="vip-shop-title">${step === "plan" ? "Choose your VIP tier" : "Choose how long it lasts"}</h2><p class="vip-intro-copy">${step === "plan" ? "VIP gives your ordinary bakery a cosmetic tag and production bonuses. It never unlocks Owner or Admin powers. Select a tier to enable Next." : `Your jar has ${fmt(state.cookies)} cookies. ${plan?.label || "VIP"} costs more for rarer tiers and longer access.`}</p>${step === "plan" ? `<div class="vip-plan-grid">${vipPlans.map(item => `<button class="vip-plan" type="button" data-vip-plan="${item.id}" aria-pressed="${String(selectedPlan === item.id)}"><strong>${item.label}</strong><span>${item.description}</span><span>3 days: ${fmt(vipDurations[0].prices[item.id])} cookies · 1 week: ${fmt(vipDurations[1].prices[item.id])} · permanent: ${fmt(vipDurations[2].prices[item.id])}</span></button>`).join("")}</div>` : `<div class="vip-duration-grid">${vipDurations.map(item => `<button class="vip-duration" type="button" data-vip-duration="${item.id}" aria-pressed="${String(selectedDuration === item.id)}"><strong>${item.label}</strong><span>${item.milliseconds ? `Valid for exactly ${item.label} from confirmation (${item.milliseconds / 3600000} hours).` : "Never expires on this local account."}</span><span>Cost: ${fmt(item.prices[plan.id])} cookies</span></button>`).join("")}</div><p class="vip-note">${duration ? `Purchase total: <strong>${fmt(price)} cookies</strong>. This purchase replaces any current tier and the timer starts when you confirm.` : "Choose a duration to see the total cookie cost. You can keep playing without buying."}</p>`}<p class="vip-dialog-status" role="status" aria-live="polite" data-vip-status>${duration && !canBuy ? `You need ${fmt(price - state.cookies)} more cookies for this choice.` : ""}</p><div class="vip-panel-footer"><button class="vip-action" type="button" data-vip-cancel>${options.intro ? "Not now" : "Close"}</button>${step === "duration" ? `<button class="vip-action" type="button" data-vip-back>Back</button>` : ""}<button class="vip-action primary" type="button" data-vip-next ${step === "plan" ? (!selectedPlan ? "disabled" : "") : (!canBuy ? "disabled" : "")}>${step === "plan" ? "Next" : `Buy ${plan?.label || "VIP"}`}</button></div></section>`;
+          let heading;
+          let description;
+          let content;
+          let footer;
+          if (step === "plan") {
+            heading = "Choose your VIP tier";
+            description = "VIP gives your ordinary bakery a cosmetic tag and production bonuses. It never unlocks Owner or Admin powers. Select a tier to enable Next.";
+            content = `<div class="vip-plan-grid">${vipPlans.map(item => `<button class="vip-plan" type="button" data-vip-plan="${item.id}" aria-pressed="${String(selectedPlan === item.id)}"><strong>${item.label}</strong><span>${item.description}</span><span>3 days: ${fmt(vipDurations[0].prices[item.id])} cookies · 1 week: ${fmt(vipDurations[1].prices[item.id])} · permanent: ${fmt(vipDurations[2].prices[item.id])}</span></button>`).join("")}</div>`;
+            footer = `<button class="vip-action" type="button" data-vip-cancel>${options.intro ? "Not now" : "Close"}</button><button class="vip-action primary" type="button" data-vip-next ${selectedPlan ? "" : "disabled"}>Next</button>`;
+          } else if (step === "duration") {
+            heading = "Choose how long it lasts";
+            description = `Your jar has ${fmt(state.cookies)} cookies. ${plan?.label || "VIP"} costs more for rarer tiers and longer access.`;
+            content = `<div class="vip-duration-grid">${vipDurations.map(item => `<button class="vip-duration" type="button" data-vip-duration="${item.id}" aria-pressed="${String(selectedDuration === item.id)}"><strong>${item.label}</strong><span>${item.milliseconds ? `Valid for exactly ${item.label} from confirmation (${item.milliseconds / 3600000} hours).` : "Never expires on this local account."}</span><span>Cost: ${fmt(item.prices[plan.id])} cookies</span></button>`).join("")}</div><p class="vip-note">${duration ? `Purchase total: <strong>${fmt(price)} cookies</strong>. This purchase replaces any current tier and the timer starts when you confirm.` : "Choose a duration to review your total cookie cost. You can keep playing without buying."}</p>`;
+            footer = `<button class="vip-action" type="button" data-vip-cancel>${options.intro ? "Not now" : "Close"}</button><button class="vip-action" type="button" data-vip-back>Back</button><button class="vip-action primary" type="button" data-vip-next ${duration ? "" : "disabled"}>View checkout</button>`;
+          } else {
+            heading = "Review your VIP checkout";
+            description = "Check the in-game cookie cost and your selected item before confirming. No real-money payment is involved.";
+            content = `<div class="vip-checkout-total"><span>Total due in game cookies</span><strong data-vip-checkout-total>${fmt(price)} cookies</strong></div><p class="vip-checkout-balance">Your cookie jar: <strong data-vip-checkout-balance>${fmt(state.cookies)}</strong></p><p class="vip-checkout-status" role="status" aria-live="polite" data-vip-checkout-status>${plan && duration && !canBuy ? `You need ${fmt(price - state.cookies)} more cookies to complete this purchase.` : !plan || !duration ? "Your items are empty. Continue shopping to choose a VIP plan." : "Ready when you are. Confirm to charge the cookies shown above."}</p><button class="vip-items-toggle" type="button" data-vip-items-toggle aria-expanded="${String(checkoutItemsExpanded)}" aria-controls="vip-items-list"><span>View your items</span><svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m5 7.5 5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button><div class="vip-items-list" id="vip-items-list" ${checkoutItemsExpanded ? "" : "hidden"}>${plan && duration ? `<div class="vip-item-row"><div class="vip-item-details"><strong>${escapeHTML(plan.label)} VIP</strong><span>${escapeHTML(duration.label)} membership · ${fmt(price)} cookies</span></div><button class="vip-item-remove" type="button" data-vip-remove aria-label="Remove ${escapeHTML(plan.label)} VIP, ${escapeHTML(duration.label)} from your items">×</button></div>` : `<p class="vip-items-empty">No items selected. Your checkout total is 0 cookies.</p>`}</div>`;
+            footer = `<button class="vip-action" type="button" data-vip-cancel>${options.intro ? "Not now" : "Close"}</button>${plan && duration ? `<button class="vip-action" type="button" data-vip-back>Back</button>` : `<button class="vip-action" type="button" data-vip-continue>Continue shopping</button>`}<button class="vip-action primary" type="button" data-vip-confirm ${!plan || !duration || !canBuy ? "disabled" : ""}>Confirm purchase</button>`;
+          }
+          vipDialog.innerHTML = `<section class="vip-panel" role="dialog" aria-modal="true" aria-labelledby="vip-shop-title"><div class="vip-kicker">${options.intro ? "A NEW BAKERY PERK" : "OPTIONAL · IN-GAME COOKIES ONLY"}</div><h2 id="vip-shop-title">${heading}</h2><p class="vip-intro-copy">${description}</p>${content}<div class="vip-panel-footer">${footer}</div></section>`;
           vipDialog.hidden = false;
           vipDialog.onclick = event => {
             const planButton = event.target.closest("[data-vip-plan]");
@@ -2037,13 +2119,33 @@ This is a local, single-player cookie game. No real cookies are delivered, no ac
               selectedDuration = durationButton.dataset.vipDuration;
               renderStep();
             } else if (event.target.closest("[data-vip-back]")) {
+              step = step === "checkout" ? "duration" : "plan";
+              renderStep(step === "duration" ? `[data-vip-duration="${selectedDuration}"]` : `[data-vip-plan="${selectedPlan}"]`);
+            } else if (event.target.closest("[data-vip-continue]")) {
               step = "plan";
-              renderStep();
+              selectedPlan = "";
+              selectedDuration = "";
+              checkoutItemsExpanded = false;
+              renderStep("[data-vip-plan]");
+            } else if (event.target.closest("[data-vip-items-toggle]")) {
+              checkoutItemsExpanded = !checkoutItemsExpanded;
+              renderStep("[data-vip-items-toggle]");
+            } else if (event.target.closest("[data-vip-remove]")) {
+              selectedPlan = "";
+              selectedDuration = "";
+              checkoutItemsExpanded = true;
+              renderStep("[data-vip-continue]");
             } else if (event.target.closest("[data-vip-next]")) {
               if (step === "plan" && selectedPlan) {
                 step = "duration";
-                renderStep();
-              } else if (step === "duration") purchaseVip(selectedPlan, selectedDuration, options.intro);
+                renderStep(`[data-vip-duration="${selectedDuration}"]`);
+              } else if (step === "duration" && selectedDuration) {
+                step = "checkout";
+                checkoutItemsExpanded = false;
+                renderStep("[data-vip-next]");
+              }
+            } else if (event.target.closest("[data-vip-confirm]")) {
+              purchaseVip(selectedPlan, selectedDuration, options.intro);
             }
           };
           vipDialog.onkeydown = event => {
@@ -2052,7 +2154,8 @@ This is a local, single-player cookie game. No real cookies are delivered, no ac
               closeVipDialog(options.intro);
             }
           };
-          vipDialog.querySelector(step === "plan" ? `[data-vip-plan="${selectedPlan}"]` : `[data-vip-duration="${selectedDuration}"]`)?.focus({ preventScroll: true });
+          vipDialog.querySelector(focusSelector)?.focus({ preventScroll: true });
+          if (!focusSelector) vipDialog.querySelector(step === "plan" ? `[data-vip-plan="${selectedPlan}"]` : step === "duration" ? `[data-vip-duration="${selectedDuration}"]` : "[data-vip-next]")?.focus({ preventScroll: true });
           if (!selectedPlan && step === "plan") vipDialog.querySelector("[data-vip-plan]")?.setAttribute("aria-pressed", "false");
         };
         renderStep();
@@ -2147,7 +2250,7 @@ This is a local, single-player cookie game. No real cookies are delivered, no ac
       function refreshAccountArea() {
         if (!currentUser || isDemo) return;
         accountArea.className = "account-chip";
-        accountArea.innerHTML = `<span class="account-name"><span class="account-description"></span></span><button id="logout" class="logout-button" type="button">Sign out</button>`;
+        accountArea.innerHTML = `<span class="account-name"><span class="account-description"></span></span><button id="logout" class="logout-button" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 17l5-5-5-5M15 12H3"/><path d="M12 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6"/></svg><span>Sign out</span></button>`;
         const label = accountArea.querySelector(".account-name");
         label.querySelector(".account-description").textContent = `${currentUser.name} · ${currentUser.bakery}`;
         if (isOwner() || isAdmin()) {
@@ -2798,7 +2901,7 @@ This is a local, single-player cookie game. No real cookies are delivered, no ac
           ]
         }
       };
-      function showPageWelcome(page, triggerButton) {
+      function showPageWelcome(page, triggerButton, onClose) {
         if (!currentUser || isOwner() || isAdmin() || !pageOrder.includes(page) || state.welcomedPages.includes(page)) return;
         const content = pageWelcomeContent[page];
         if (!content) return;
@@ -2818,6 +2921,7 @@ This is a local, single-player cookie game. No real cookies are delivered, no ac
           if (welcome.hidden || welcome.classList.contains("is-closing")) return;
           await closeAnimatedOverlay(welcome);
           triggerButton?.focus({ preventScroll: true });
+          onClose?.();
         };
         welcome.querySelector("button").addEventListener("click", close);
         welcome.onclick = event => {
@@ -2830,6 +2934,15 @@ This is a local, single-player cookie game. No real cookies are delivered, no ac
           }
         };
         welcome.querySelector("button").focus({ preventScroll: true });
+      }
+      function showInitialBakeWelcome(onClose) {
+        requestAnimationFrame(() => {
+          if (!currentUser || isOwner() || isAdmin() || state.welcomedPages.includes("bake")) {
+            onClose?.();
+            return;
+          }
+          showPageWelcome("bake", document.querySelector('[data-page="bake"]'), onClose);
+        });
       }
       function showChiefWelcome() {
         const welcome = document.getElementById("welcome-screen");
@@ -2882,7 +2995,7 @@ This is a local, single-player cookie game. No real cookies are delivered, no ac
           render(true);
           startBakeryWhispers();
           save();
-          showNewBakerVipOffer();
+          showInitialBakeWelcome(showNewBakerVipOffer);
         });
       }
       function openDemoDialog() {
@@ -2925,13 +3038,13 @@ This is a local, single-player cookie game. No real cookies are delivered, no ac
         animatedValues.clear();
         counterFrames.forEach(frame => cancelAnimationFrame(frame));
         counterFrames.clear();
-        state = { ...freshState(), cookies: 25000, baked: 25000, taps: 420, bought: { whisk: 2, oven: 1, clockwork: 2, mixer: 1, apron: 1 } };
+        state = { ...freshState(), cookies: 25000, baked: "25000", taps: 420, bought: { whisk: 2, oven: 1, clockwork: 2, mixer: 1, apron: 1 } };
         awardAchievements();
         authScreen.hidden = true;
         gameApp.classList.remove("auth-locked");
         dockWrap.classList.remove("auth-locked");
         accountArea.className = "account-chip";
-        accountArea.innerHTML = `<span class="account-name">DEMO · NOT SAVED</span><button id="logout" class="logout-button" type="button">Exit demo</button>`;
+        accountArea.innerHTML = `<span class="account-name">DEMO · NOT SAVED</span><button id="logout" class="logout-button" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 17l5-5-5-5M15 12H3"/><path d="M12 3h6a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-6"/></svg><span>Exit demo</span></button>`;
         accountArea.querySelector("#logout").addEventListener("click", async () => {
           if (accountClosing) return;
           if (!await confirmAccountExit()) return;
@@ -2956,6 +3069,7 @@ This is a local, single-player cookie game. No real cookies are delivered, no ac
         });
         currentPage = "bake";
         render(true);
+        showInitialBakeWelcome();
       }
       function readAccounts() {
         const raw = localStorage.getItem(ACCOUNTS_KEY);
@@ -3300,7 +3414,7 @@ This is a local, single-player cookie game. No real cookies are delivered, no ac
         else if (!options.restoring && currentUser.isAdmin) showAdminWelcome();
         if (!rememberedSession) showToast("You are signed in, but this browser could not remember it for next time.");
         if (state.pendingOfflineCookies > 0) requestAnimationFrame(showOfflineCookieDialog);
-        else if (account.onboardingComplete) requestAnimationFrame(showNewBakerVipOffer);
+        else if (account.onboardingComplete) showInitialBakeWelcome(showNewBakerVipOffer);
       }
       function confirmAccountExit() {
         const wasDemo = isDemo;
@@ -3387,10 +3501,10 @@ This is a local, single-player cookie game. No real cookies are delivered, no ac
           }
           const savedAchievements = Array.isArray(saved.achievements) ? saved.achievements : [];
           const earnedAchievementCookies = saved.achievementCookiesCounted === true || !Array.isArray(saved.achievements)
-            ? 0
+            ? 0n
             : achievements
               .filter(achievement => savedAchievements.includes(achievement.id))
-              .reduce((total, achievement) => total + achievement.reward, 0);
+              .reduce((total, achievement) => total + BigInt(achievement.reward), 0n);
           const numericSettings = {
             ownerTools: {
               tapMultiplier: [1,10,100,1000,10000,100000,1000000,10000000,100000000,1000000000],
@@ -3429,7 +3543,7 @@ This is a local, single-player cookie game. No real cookies are delivered, no ac
             ...freshState(),
             ...saved,
             cookies: safeCounter(saved.cookies),
-            baked: addSafeCounter(saved.baked, earnedAchievementCookies),
+            baked: addBakedCookies(saved.baked, earnedAchievementCookies),
             achievementCookiesCounted: true,
             taps: safeCounter(saved.taps),
             boostsUsed: safeCounter(saved.boostsUsed),
@@ -3467,10 +3581,27 @@ This is a local, single-player cookie game. No real cookies are delivered, no ac
         }
       }
       function save(updateActivity = true) {
+        clearTimeout(tapSaveTimer);
+        tapSaveTimer = null;
         if (!currentUser || isDemo) return;
         if (updateActivity) state.lastSave = Date.now();
         try { localStorage.setItem(SAVE_PREFIX + currentUser.email, JSON.stringify(state)); }
         catch (error) { showToast("Your browser couldn’t save this batch."); console.error("Could not save Jancsi's Crumb Galaxy progress.", error); }
+      }
+      function scheduleTapSave() {
+        if (!currentUser || isDemo) return;
+        clearTimeout(tapSaveTimer);
+        tapSaveTimer = setTimeout(() => {
+          tapSaveTimer = null;
+          save();
+        }, 250);
+      }
+      function scheduleLiveNumberUpdate() {
+        if (liveNumberUpdateFrame) return;
+        liveNumberUpdateFrame = requestAnimationFrame(() => {
+          liveNumberUpdateFrame = 0;
+          updateLiveNumbers();
+        });
       }
       function showToast(message) {
         toast.textContent = message;
@@ -3522,10 +3653,49 @@ This is a local, single-player cookie game. No real cookies are delivered, no ac
         offlineCookieDialog.hidden = false;
         const preview = offlineCookieDialog.querySelector("[data-offline-preview]");
         const claim = offlineCookieDialog.querySelector("[data-offline-claim]");
+        let previewValue = safeCounter(state.pendingOfflineCookies);
+        let previewTarget = previewValue;
+        let previewFrame = 0;
+        const finishPreviewAnimation = () => {
+          if (previewFrame) cancelAnimationFrame(previewFrame);
+          previewFrame = 0;
+          previewValue = previewTarget;
+          preview.textContent = fmt(previewTarget);
+          preview.classList.remove("is-counting");
+        };
+        const animatePreview = target => {
+          if (previewFrame) cancelAnimationFrame(previewFrame);
+          previewFrame = 0;
+          previewTarget = target;
+          const startValue = previewValue;
+          const delta = target - startValue;
+          if (!delta) {
+            preview.textContent = fmt(target);
+            preview.classList.remove("is-counting");
+            return;
+          }
+          const digits = String(Math.abs(delta)).length;
+          const duration = Math.max(280, 800 - (digits - 1) * 35);
+          const startedAt = performance.now();
+          preview.classList.add("is-counting");
+          const step = now => {
+            const progress = Math.min(1, (now - startedAt) / duration);
+            const easedProgress = 1 - Math.pow(1 - progress, 3);
+            previewValue = progress === 1 ? target : Math.round(startValue + delta * easedProgress);
+            preview.textContent = fmt(previewValue);
+            if (progress < 1) {
+              previewFrame = requestAnimationFrame(step);
+            } else {
+              previewFrame = 0;
+              preview.classList.remove("is-counting");
+            }
+          };
+          previewFrame = requestAnimationFrame(step);
+        };
         const updatePreview = () => {
           const reward = safeCounter(state.pendingOfflineCookies * offlineMultiplier);
-          preview.textContent = fmt(reward);
           claim.textContent = `Collect ${fmt(reward)} cookies`;
+          animatePreview(reward);
           offlineCookieDialog.querySelectorAll("[data-offline-multiplier]").forEach(button => {
             button.setAttribute("aria-pressed", String(Number(button.dataset.offlineMultiplier) === offlineMultiplier));
           });
@@ -3539,7 +3709,10 @@ This is a local, single-player cookie game. No real cookies are delivered, no ac
             }
           });
         });
-        claim.addEventListener("click", collectOfflineCookies);
+        claim.addEventListener("click", () => {
+          finishPreviewAnimation();
+          collectOfflineCookies();
+        });
         claim.focus({ preventScroll: true });
       }
       async function collectOfflineCookies() {
@@ -3559,14 +3732,17 @@ This is a local, single-player cookie game. No real cookies are delivered, no ac
         showToast(achievementsEarned.count
           ? `Collected ${fmt(reward)} offline cookies! ${fmt(achievementsEarned.count)} achievement${achievementsEarned.count === 1 ? "" : "s"} earned for +${fmt(achievementsEarned.reward)} cookies.`
           : `Collected ${fmt(reward)} cookies from your offline bakery!`);
-        showNewBakerVipOffer();
+        showInitialBakeWelcome(showNewBakerVipOffer);
       }
       function addCookies(amount) {
-        if (Number.isNaN(amount) || amount <= 0) return;
-        const safeAmount = Math.min(Number.MAX_SAFE_INTEGER, Number.isFinite(amount) ? Math.floor(amount) : Number.MAX_SAFE_INTEGER);
+        if (typeof amount === "bigint" ? amount <= 0n : Number.isNaN(amount) || amount <= 0) return;
+        const bakedAmount = typeof amount === "bigint"
+          ? amount
+          : BigInt(Number.isFinite(amount) ? Math.min(Number.MAX_SAFE_INTEGER, Math.floor(amount)) : Number.MAX_SAFE_INTEGER);
+        const safeAmount = bakedAmount > BigInt(Number.MAX_SAFE_INTEGER) ? Number.MAX_SAFE_INTEGER : Number(bakedAmount);
         if ((isOwner() && state.ownerTools.infiniteCookies) || (isAdmin() && state.adminTools.infiniteCookies)) state.cookies = Number.MAX_SAFE_INTEGER;
         else state.cookies = addSafeCounter(state.cookies, safeAmount);
-        state.baked = addSafeCounter(state.baked, safeAmount);
+        state.baked = addBakedCookies(state.baked, bakedAmount);
       }
       function collectBakingTime(seconds) {
         const duration = Math.max(0, Math.floor(seconds));
@@ -3577,7 +3753,7 @@ This is a local, single-player cookie game. No real cookies are delivered, no ac
         return cookies;
       }
       function achievementMetric(metric) {
-        if (metric === "baked") return Math.max(0, Number(state.baked) || 0);
+        if (metric === "baked") return bakedBigInt(state.baked);
         if (metric === "taps") return Math.max(0, Number(state.taps) || 0);
         if (metric === "boostsUsed") return Math.max(0, Number(state.boostsUsed) || 0);
         if (metric === "helpers") return Object.values(state.bought).reduce((sum, count) => sum + (Number(count) || 0), 0);
@@ -3586,25 +3762,28 @@ This is a local, single-player cookie game. No real cookies are delivered, no ac
       function awardAchievements(unlockAll = false) {
         const unlocked = new Set(Array.isArray(state.achievements) ? state.achievements : []);
         const newlyUnlocked = [];
-        let reward = 0;
+        let reward = 0n;
         while (true) {
           const eligible = visibleAchievements().filter(achievement =>
             !unlocked.has(achievement.id) &&
-            (unlockAll || achievementMetric(achievement.metric) >= achievement.goal)
+            (unlockAll || (achievement.metric === "baked"
+              ? achievementMetric(achievement.metric) >= bakedBigInt(achievement.goal)
+              : achievementMetric(achievement.metric) >= achievement.goal))
           );
           if (!eligible.length) break;
           eligible.forEach(achievement => {
             unlocked.add(achievement.id);
             newlyUnlocked.push(achievement);
           });
-          const waveReward = eligible.reduce((total, achievement) => total + achievement.reward, 0);
-          reward = Math.min(Number.MAX_SAFE_INTEGER, reward + waveReward);
-          state.baked = addSafeCounter(state.baked, waveReward);
+          const waveReward = eligible.reduce((total, achievement) => total + BigInt(achievement.reward), 0n);
+          reward += waveReward;
+          state.baked = addBakedCookies(state.baked, waveReward);
         }
-        if (!newlyUnlocked.length) return { count: 0, reward: 0 };
+        if (!newlyUnlocked.length) return { count: 0, reward: 0n };
         state.achievements = [...unlocked];
         const hasInfiniteJar = (isOwner() && state.ownerTools.infiniteCookies) || (isAdmin() && state.adminTools.infiniteCookies);
-        state.cookies = hasInfiniteJar ? Number.MAX_SAFE_INTEGER : addSafeCounter(state.cookies, reward);
+        const safeReward = reward > BigInt(Number.MAX_SAFE_INTEGER) ? Number.MAX_SAFE_INTEGER : Number(reward);
+        state.cookies = hasInfiniteJar ? Number.MAX_SAFE_INTEGER : addSafeCounter(state.cookies, safeReward);
         return { count: newlyUnlocked.length, reward };
       }
       function checkAchievements() {
@@ -3624,9 +3803,13 @@ This is a local, single-player cookie game. No real cookies are delivered, no ac
         const bakeryAchievements = availableAchievements.filter(achievement => !achievement.ownerOnly);
         const ownerAchievements = availableAchievements.filter(achievement => achievement.ownerOnly);
         const renderCards = items => `<div class="achievement-grid">${items.map(achievement => {
-          const progress = Math.min(achievement.goal, achievementMetric(achievement.metric));
+          const goal = achievement.metric === "baked" ? bakedBigInt(achievement.goal) : achievement.goal;
+          const metricProgress = achievementMetric(achievement.metric);
+          const progress = achievement.metric === "baked"
+            ? metricProgress < goal ? metricProgress : goal
+            : Math.min(goal, metricProgress);
           const complete = unlocked.has(achievement.id);
-          const percent = Math.min(100, progress / achievement.goal * 100);
+          const percent = Math.min(100, achievement.metric === "baked" ? bakedRatioPercent(progress, goal) : progress / goal * 100);
           return `            <article class="achievement-card ${complete ? "is-unlocked" : ""}" data-achievement-id="${achievement.id}">
             <h2>${escapeHTML(achievement.title)}${complete ? " ✓" : ""}</h2>
             <p>${escapeHTML(achievement.metricName)}: ${fmt(achievement.goal)}${achievement.metric === "baked" ? " cookies" : ""}</p>
@@ -3648,11 +3831,15 @@ This is a local, single-player cookie game. No real cookies are delivered, no ac
         main.querySelectorAll("[data-achievement-id]").forEach(card => {
           const achievement = achievements.find(item => item.id === card.dataset.achievementId);
           if (!achievement || unlocked.has(achievement.id)) return;
-          const progress = Math.min(achievement.goal, achievementMetric(achievement.metric));
+          const goal = achievement.metric === "baked" ? bakedBigInt(achievement.goal) : achievement.goal;
+          const metricProgress = achievementMetric(achievement.metric);
+          const progress = achievement.metric === "baked"
+            ? metricProgress < goal ? metricProgress : goal
+            : Math.min(goal, metricProgress);
           const progressLabel = card.querySelector("[data-achievement-progress]");
           const progressFill = card.querySelector(".achievement-progress-fill");
           if (progressLabel) progressLabel.textContent = `${fmt(progress)} / ${fmt(achievement.goal)}`;
-          if (progressFill) progressFill.style.width = `${Math.min(100, progress / achievement.goal * 100)}%`;
+          if (progressFill) progressFill.style.width = `${Math.min(100, achievement.metric === "baked" ? bakedRatioPercent(progress, goal) : progress / goal * 100)}%`;
         });
       }
       function cookieArt() {
@@ -3682,8 +3869,10 @@ This is a local, single-player cookie game. No real cookies are delivered, no ac
       }
       function renderBake() {
         const milestone = nextBakingMilestone();
-        const nextGoal = milestone?.goal || state.baked;
-        const progress = milestone ? Math.min(100, state.baked / nextGoal * 100) : 100;
+        const currentBaked = bakedBigInt(state.baked);
+        const nextGoal = milestone ? bakedBigInt(milestone.goal) : currentBaked;
+        const progress = milestone ? Math.min(100, bakedRatioPercent(currentBaked, nextGoal)) : 100;
+        const earnedProgress = currentBaked < nextGoal ? currentBaked : nextGoal;
         const topItems = upgrades.slice(0, 3);
         main.innerHTML = `<section class="page">
           ${pageTitle("YOUR LITTLE BAKERY", "A fresh batch awaits.", "Tap the cookie to bake, then grow your cozy corner of the cosmos.")}
@@ -3703,7 +3892,7 @@ This is a local, single-player cookie game. No real cookies are delivered, no ac
                 <div class="daily-top"><div class="daily-title">${milestone ? escapeHTML(milestone.title) : "Every baking milestone complete"}</div><div class="daily-icon">${iconArt("cookie")}</div></div>
                 <p class="daily-copy">${milestone ? `Bake ${fmt(nextGoal)} lifetime cookies to earn +${fmt(milestone.reward)} cookies.` : "You have earned every baking milestone in this galaxy."}</p>
                 <div class="progress-track"><div class="progress-fill" style="width:${progress}%"></div></div>
-                <div class="progress-label"><span><span data-counter="progress-baked" data-counter-value="${Math.floor(Math.min(state.baked, nextGoal))}">${fmt(Math.min(state.baked, nextGoal))}</span> earned</span><span>${milestone ? `${fmt(nextGoal)} cookies` : "Complete"}</span></div>
+                <div class="progress-label"><span><span data-counter="progress-baked" data-counter-value="${earnedProgress}">${fmt(earnedProgress)}</span> earned</span><span>${milestone ? `${fmt(nextGoal)} cookies` : "Complete"}</span></div>
               </div>
             </div>
           </div>
@@ -3740,7 +3929,7 @@ This is a local, single-player cookie game. No real cookies are delivered, no ac
         const totalOwned = Object.values(state.bought).reduce((sum, count) => sum + count, 0);
         main.innerHTML = `<section class="page">${pageTitle("YOUR BAKING STORY", "A sweet little ledger.", "Every tap and every batch has helped your bakery find its rhythm.")}
           <div class="stats-grid">
-            <div class="card stat-card"><div class="stat-value" id="stat-baked" data-counter="stat-baked" data-counter-value="${Math.floor(state.baked)}">${fmt(state.baked)}</div><div class="stat-label">lifetime cookies earned</div></div>
+            <div class="card stat-card"><div class="stat-value" id="stat-baked" data-counter="stat-baked" data-counter-value="${bakedForCounter()}">${fmt(state.baked)}</div><div class="stat-label">lifetime cookies earned</div></div>
             <div class="card stat-card"><div class="stat-value" id="stat-taps" data-counter="stat-taps" data-counter-value="${state.taps}">${fmt(state.taps)}</div><div class="stat-label">happy taps on the cookie</div></div>
             <div class="card stat-card"><div class="stat-value" id="stat-rate" data-counter="stat-rate" data-counter-value="${Math.floor(cookiesPerSecond())}">${fmt(cookiesPerSecond())}</div><div class="stat-label">cookies made each second</div></div>
             <div class="card stat-card"><div class="stat-value" id="stat-owned" data-counter="stat-owned" data-counter-value="${totalOwned}">${fmt(totalOwned)}</div><div class="stat-label">helpers on your counter</div></div>
@@ -3783,7 +3972,7 @@ This is a local, single-player cookie game. No real cookies are delivered, no ac
             <div class="profile-detail"><div class="profile-detail-label">Bakery</div><div class="profile-detail-value">${escapeHTML(currentUser.bakery)}</div></div>
             <div class="profile-detail"><div class="profile-detail-label">${demo ? "Session" : "Email address"}</div><div class="profile-detail-value">${escapeHTML(email)}</div></div>
             <div class="profile-detail"><div class="profile-detail-label">Favorite bake</div><div class="profile-detail-value">${escapeHTML(favorite)}</div></div>
-            <div class="profile-detail"><div class="profile-detail-label">Lifetime cookies earned</div><div class="profile-detail-value" id="profile-baked" data-counter="profile-baked" data-counter-value="${Math.floor(state.baked)}">${fmt(state.baked)}</div></div>
+            <div class="profile-detail"><div class="profile-detail-label">Lifetime cookies earned</div><div class="profile-detail-value" id="profile-baked" data-counter="profile-baked" data-counter-value="${bakedForCounter()}">${fmt(state.baked)}</div></div>
             <div class="profile-detail"><div class="profile-detail-label">Helpers hired</div><div class="profile-detail-value" id="profile-helpers" data-counter="profile-helpers" data-counter-value="${totalOwned}">${fmt(totalOwned)}</div></div>
             <div class="profile-detail"><div class="profile-detail-label">Baking taps</div><div class="profile-detail-value" id="profile-taps" data-counter="profile-taps" data-counter-value="${state.taps}">${fmt(state.taps)}</div></div>
           </section>
@@ -4045,7 +4234,9 @@ This is a local, single-player cookie game. No real cookies are delivered, no ac
               showToast("Every visible baking milestone is already unlocked.");
               return;
             }
-            const missing = Math.max(0, milestone.goal - state.baked);
+            const missing = bakedBigInt(milestone.goal) > bakedBigInt(state.baked)
+              ? bakedBigInt(milestone.goal) - bakedBigInt(state.baked)
+              : 0n;
             if (missing) addCookies(missing);
             const result = awardAchievements();
             actionNotice = result.count
@@ -4882,7 +5073,9 @@ This is a local, single-player cookie game. No real cookies are delivered, no ac
               showToast("Every visible baking milestone is already unlocked.");
               return;
             }
-            const missing = Math.max(0, milestone.goal - state.baked);
+            const missing = bakedBigInt(milestone.goal) > bakedBigInt(state.baked)
+              ? bakedBigInt(milestone.goal) - bakedBigInt(state.baked)
+              : 0n;
             if (missing) addCookies(missing);
             const result = awardAchievements();
             actionNotice = result.count
@@ -5306,10 +5499,11 @@ This is a local, single-player cookie game. No real cookies are delivered, no ac
         cookieAnimations.set(cookieSvg, turnAnimation);
         const hitX = event.clientX || button.getBoundingClientRect().left + button.offsetWidth / 2;
         const hitY = event.clientY || button.getBoundingClientRect().top + button.offsetHeight / 2;
+        const clickEffects = document.createDocumentFragment();
         const addClickEffect = (effect, lifetime) => {
           if (activeCookieEffects >= effectLimit) return;
           activeCookieEffects++;
-          document.body.appendChild(effect);
+          clickEffects.appendChild(effect);
           setTimeout(() => {
             effect.remove();
             activeCookieEffects--;
@@ -5362,9 +5556,10 @@ This is a local, single-player cookie game. No real cookies are delivered, no ac
             crumb.style.setProperty("--crumb-color", owner ? (index % 3 ? "#f7cf82" : "#fff0b3") : isAdmin() ? (index % 2 ? "#e97db9" : "#ffc3e4") : index % 2 ? "#d88b49" : "#f7cf82");
             addClickEffect(crumb, 900);
           }
+          document.body.appendChild(clickEffects);
         }
-        updateLiveNumbers();
-        save();
+        scheduleLiveNumberUpdate();
+        scheduleTapSave();
       }
       function buyUpgrade(id) {
         const item = upgrades.find(upgrade => upgrade.id === id);
@@ -5403,7 +5598,7 @@ This is a local, single-player cookie game. No real cookies are delivered, no ac
           buyButton.disabled = state.cookies < Number(buyButton.dataset.cost) && !canBuyForFree();
         });
         const bakedStat = document.getElementById("stat-baked");
-        if (bakedStat) setCounter(bakedStat, "stat-baked", state.baked);
+        if (bakedStat) setCounter(bakedStat, "stat-baked", bakedForCounter());
         const tapsStat = document.getElementById("stat-taps");
         if (tapsStat) setCounter(tapsStat, "stat-taps", state.taps);
         const rateStat = document.getElementById("stat-rate");
@@ -5411,7 +5606,7 @@ This is a local, single-player cookie game. No real cookies are delivered, no ac
         const ownedStat = document.getElementById("stat-owned");
         if (ownedStat) setCounter(ownedStat, "stat-owned", Object.values(state.bought).reduce((sum, count) => sum + count, 0));
         const profileBaked = document.getElementById("profile-baked");
-        if (profileBaked) setCounter(profileBaked, "profile-baked", state.baked);
+        if (profileBaked) setCounter(profileBaked, "profile-baked", bakedForCounter());
         const profileHelpers = document.getElementById("profile-helpers");
         if (profileHelpers) setCounter(profileHelpers, "profile-helpers", Object.values(state.bought).reduce((sum, count) => sum + count, 0));
         const profileTaps = document.getElementById("profile-taps");
@@ -5421,11 +5616,12 @@ This is a local, single-player cookie game. No real cookies are delivered, no ac
         });
         if (currentPage === "bake") {
           const milestoneData = nextBakingMilestone();
-          const nextGoal = milestoneData?.goal || state.baked;
+          const currentBaked = bakedBigInt(state.baked);
+          const nextGoal = milestoneData ? bakedBigInt(milestoneData.goal) : currentBaked;
           const progress = main.querySelector(".progress-fill");
-          if (progress) progress.style.width = `${milestoneData ? Math.min(100, state.baked / nextGoal * 100) : 100}%`;
+          if (progress) progress.style.width = `${milestoneData ? Math.min(100, bakedRatioPercent(currentBaked, nextGoal)) : 100}%`;
           const bakedLabel = main.querySelector('[data-counter="progress-baked"]');
-          if (bakedLabel) setCounter(bakedLabel, "progress-baked", Math.min(state.baked, nextGoal));
+          if (bakedLabel) setCounter(bakedLabel, "progress-baked", currentBaked < nextGoal ? (currentBaked <= BigInt(Number.MAX_SAFE_INTEGER) ? Number(currentBaked) : currentBaked) : (nextGoal <= BigInt(Number.MAX_SAFE_INTEGER) ? Number(nextGoal) : nextGoal));
           const milestoneTitle = main.querySelector(".daily-title");
           if (milestoneTitle) milestoneTitle.textContent = milestoneData?.title || "Every baking milestone complete";
           const milestoneCopy = main.querySelector(".daily-copy");
